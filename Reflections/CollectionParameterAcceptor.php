@@ -25,10 +25,10 @@ class CollectionParameterAcceptor implements ParametersAcceptor
     {
         return $this->acceptor->getTemplateTypeMap();
     }
-
-	/**
-	 * @return array<int, \PHPStan\Reflection\ParameterReflection>
-	 */
+    
+    /**
+     * @return array<int, \PHPStan\Reflection\ParameterReflection>
+     */
     public function getParameters(): array
     {
         return $this->acceptor->getParameters();
