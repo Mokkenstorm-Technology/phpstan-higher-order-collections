@@ -6,7 +6,9 @@ use App\Infrastructure\Support\Collection;
 
 use Plugin\Reflections\CollectionPropertyReflection;
 
-use PHPStan\Reflection\{ClassReflection, PropertyReflection, PropertiesClassReflectionExtension};
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\PropertyReflection;
+use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
 class CollectionExtension implements PropertiesClassReflectionExtension
 {
@@ -29,11 +31,11 @@ class CollectionExtension implements PropertiesClassReflectionExtension
 
         $reflection = new CollectionPropertyReflection($classReflection, $propertyName);
         
-        return $reflection; 
+        return $reflection;
     }
 
     private function isValidProperty(string $property) : bool
     {
-        return in_array($property, $this->properties); 
+        return in_array($property, $this->properties);
     }
 }

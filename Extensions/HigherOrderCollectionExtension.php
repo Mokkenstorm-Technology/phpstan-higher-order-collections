@@ -1,28 +1,26 @@
 <?php
 
-namespace Plugin\Extensions; 
+namespace Plugin\Extensions;
 
 use App\Infrastructure\Support\Collection;
 
-use PHPStan\Analyser\{Scope, OutOfClassScope};
-use PHPStan\Type\{ObjectType, Type, Generic\GenericObjectType};
+use PHPStan\Analyser\Scope;
+use PHPStan\Analyser\OutOfClassScope;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
+use PHPStan\Type\Generic\GenericObjectType;
 
-use PHPStan\Reflection\{
-    
-    ClassReflection,
-    MethodReflection,
-    PropertyReflection,
-
-    ReflectionProvider,
-    
-    MethodsClassReflectionExtension,
-    PropertiesClassReflectionExtension
-
-};
+use PHPStan\Reflection\ClassReflection;
+use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\PropertyReflection;
+use PHPStan\Reflection\ReflectionProvider;
+use PHPStan\Reflection\MethodsClassReflectionExtension;
+use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
 use PhpParser\Node\Expr\MethodCall;
 
-use Plugin\Reflections\{HigherOrderCollectionMethodReflection, HigherOrderCollectionPropertyReflection};
+use Plugin\Reflections\HigherOrderCollectionMethodReflection;
+use Plugin\Reflections\HigherOrderCollectionPropertyReflection;
 
 class HigherOrderCollectionExtension implements MethodsClassReflectionExtension, PropertiesClassReflectionExtension
 {
@@ -30,7 +28,7 @@ class HigherOrderCollectionExtension implements MethodsClassReflectionExtension,
 
     public function __construct(ReflectionProvider $reflectionProvider)
     {
-        $this->reflectionProvider = $reflectionProvider; 
+        $this->reflectionProvider = $reflectionProvider;
     }
 
     public function hasMethod(ClassReflection $classReflection, string $methodName): bool
@@ -45,7 +43,7 @@ class HigherOrderCollectionExtension implements MethodsClassReflectionExtension,
     public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection
     {
         assert(($type = $this->getTemplateType($classReflection)) !== null);
-        assert($this->reflectionProvider->hasClass($type->getClassName())); 
+        assert($this->reflectionProvider->hasClass($type->getClassName()));
 
         return new HigherOrderCollectionMethodReflection(
             $this->reflectionProvider->getClass($type->getClassName())->getMethod(
@@ -88,7 +86,6 @@ class HigherOrderCollectionExtension implements MethodsClassReflectionExtension,
         MethodCall $methodCall,
         Scope $scope
     ) : Type {
-
         $type = $this->getTemplateType($methodReflection->getDeclaringClass());
 
         assert($type instanceof ObjectType);
@@ -100,10 +97,10 @@ class HigherOrderCollectionExtension implements MethodsClassReflectionExtension,
         return new GenericObjectType(Collection::class, [$type]);
     }
 
-    private function getTemplateType(ClassReflection $classReflection) : ? ObjectType 
+    private function getTemplateType(ClassReflection $classReflection) : ? ObjectType
     {
         if (($type = $classReflection->getActiveTemplateTypeMap()->getType('T')) === null) {
-            return null; 
+            return null;
         }
 
         if (!$type instanceof ObjectType) {
@@ -111,7 +108,7 @@ class HigherOrderCollectionExtension implements MethodsClassReflectionExtension,
         }
 
         if (!$this->reflectionProvider->hasClass($type->getClassName())) {
-            return null; 
+            return null;
         }
 
         return $type;

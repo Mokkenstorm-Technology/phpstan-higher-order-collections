@@ -4,7 +4,9 @@ namespace Plugin\Reflections;
 
 use App\Infrastructure\Support\Collection;
 
-use PHPStan\Type\{Generic\TemplateTypeMap, Generic\GenericObjectType, Type};
+use PHPStan\Type\Generic\TemplateTypeMap;
+use PHPStan\Type\Generic\GenericObjectType;
+use PHPStan\Type\Type;
 use PHPStan\Reflection\ParametersAcceptor;
 
 class CollectionParameterAcceptor implements ParametersAcceptor
@@ -41,6 +43,6 @@ class CollectionParameterAcceptor implements ParametersAcceptor
 
     public function getReturnType(): Type
     {
-        return new GenericObjectType(Collection::class, [$this->acceptor->getReturnType()]); 
+        return new GenericObjectType(Collection::class, [$this->acceptor->getReturnType()]);
     }
 }

@@ -2,9 +2,12 @@
 
 namespace Plugin\Reflections;
 
-use PHPStan\Reflection\{PropertyReflection, ClassReflection};
+use PHPStan\Reflection\PropertyReflection;
+use PHPStan\Reflection\ClassReflection;
 use PHPStan\TrinaryLogic;
-use PHPStan\Type\{Type, NeverType, Generic\GenericObjectType};
+use PHPStan\Type\Type;
+use PHPStan\Type\NeverType;
+use PHPStan\Type\Generic\GenericObjectType;
 
 use App\Infrastructure\Support\Collection;
 
@@ -29,12 +32,12 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
 
     public function getWritableType(): Type
     {
-        return new NeverType(true); 
+        return new NeverType(true);
     }
 
     public function getDeclaringClass(): ClassReflection
     {
-        return $this->reflector->getDeclaringClass(); 
+        return $this->reflector->getDeclaringClass();
     }
 
     public function isStatic(): bool
@@ -69,7 +72,7 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
 
     public function isDeprecated(): TrinaryLogic
     {
-        return $this->reflector->isDeprecated(); 
+        return $this->reflector->isDeprecated();
     }
 
     public function getdocComment(): ?string
@@ -84,6 +87,6 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
 
     public function isInternal(): TrinaryLogic
     {
-        return $this->reflector->isInternal(); 
+        return $this->reflector->isInternal();
     }
 }
