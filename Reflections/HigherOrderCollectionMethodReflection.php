@@ -29,7 +29,7 @@ class HigherOrderCollectionMethodReflection implements MethodReflection
     {
         return array_map(
             fn (ParametersAcceptor $acceptor) : ParametersAcceptor =>
-                new CollectionParameterAcceptor(
+                new HigherOrderCollectionParameterAcceptor(
                     $acceptor,
                     $this->classReflection
                 ),
