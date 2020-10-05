@@ -2,6 +2,8 @@
 
 namespace Plugin\Reflections;
 
+use PHPStan\Analyser\OutOfClassScope;
+
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\TrinaryLogic;
@@ -10,15 +12,13 @@ use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\NeverType;
 
+use App\Infrastructure\Support\Collection;
 use App\Infrastructure\Support\HigherOrderCollectionProxy;
 
 class CollectionPropertyReflection implements PropertyReflection
 {
     private ClassReflection $reflector;
 
-    /**
-     * @var string
-     */
     private string $method;
 
     /**
@@ -32,13 +32,16 @@ class CollectionPropertyReflection implements PropertyReflection
 
     public function getReadableType(): Type
     {
-        assert(($type = $this->reflector->getTemplateTypeMap()->getType('T')) !== null);
-            
+        assert(($inner = $this->reflector->getTemplateTypeMap()->getType('T')) !== null);
+
+        // fixme
+        assert(($outer = $this->reflector->getMethod($this->method, new OutOfClassScope)->getVariants()[0]->getReturnType()) !== null);
+        
         return new GenericObjectType(
             HigherOrderCollectionProxy::class,
             [
-                $type,
-                new ConstantStringType($this->method)
+                $inner,
+                $outer
             ]
         );
     }

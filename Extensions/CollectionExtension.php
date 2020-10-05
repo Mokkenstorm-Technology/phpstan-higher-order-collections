@@ -12,30 +12,26 @@ use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
 class CollectionExtension implements PropertiesClassReflectionExtension
 {
-    /**
-     * @var string[]
-     */
-    private array $properties = [
-        'map',
-        'filter'
-    ];
-    
-    public function hasProperty(ClassReflection $classReflection, string $propertyName): bool
+    public function hasProperty(ClassReflection $class, string $property): bool
     {
-        return $this->isValidProperty($propertyName) && ($classReflection->getName() === Collection::class || $classReflection->isSubclassOf(Collection::class));
+        return $this->isCollection($class) && $this->isProxyable($property);
     }
 
-    public function getProperty(ClassReflection $classReflection, string $propertyName): PropertyReflection
+    public function getProperty(ClassReflection $class, string $property): PropertyReflection
     {
-        assert($this->isValidProperty($propertyName));
-
-        $reflection = new CollectionPropertyReflection($classReflection, $propertyName);
-        
-        return $reflection;
+        return new CollectionPropertyReflection($class, $property);
     }
 
-    private function isValidProperty(string $property) : bool
+    private function isProxyable(string $property) : bool
     {
-        return in_array($property, $this->properties);
+        return in_array($property, [
+            'filter',
+            'map',
+        ]);
+    }
+
+    private function isCollection(ClassReflection $class) : bool
+    {
+        return $class->getName() === Collection::class || $class->isSubclassOf(Collection::class);
     }
 }

@@ -13,21 +13,25 @@ use App\Infrastructure\Support\Collection;
 
 class HigherOrderCollectionPropertyReflection implements PropertyReflection
 {
-    private PropertyReflection $reflector;
+    private ClassReflection $classReflection;
     
-    public function __construct(PropertyReflection $reflector)
-    {
-        $this->reflector = $reflector;
+    private PropertyReflection $propertyReflection;
+    
+    public function __construct(
+        PropertyReflection $propertyReflection,
+        ClassReflection $classReflection
+    ) {
+        $this->propertyReflection = $propertyReflection;
+        $this->classReflection = $classReflection;
     }
 
     public function getReadableType(): Type
     {
-        return new GenericObjectType(
-            Collection::class,
-            [
-                $this->reflector->getReadableType()
-            ]
-        );
+        assert(($type = $this->classReflection->withTypes([
+            $this->propertyReflection->getReadableType()
+        ])->getActiveTemplateTypeMap()->getType('S')) !== null);
+
+        return $type;
     }
 
     public function getWritableType(): Type
@@ -37,32 +41,32 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
 
     public function getDeclaringClass(): ClassReflection
     {
-        return $this->reflector->getDeclaringClass();
+        return $this->propertyReflection->getDeclaringClass();
     }
 
     public function isStatic(): bool
     {
-        return $this->reflector->isStatic();
+        return $this->propertyReflection->isStatic();
     }
 
     public function isPrivate(): bool
     {
-        return $this->reflector->isPrivate();
+        return $this->propertyReflection->isPrivate();
     }
 
     public function isPublic(): bool
     {
-        return $this->reflector->isPublic();
+        return $this->propertyReflection->isPublic();
     }
 
     public function canChangeTypeAfterAssignment(): bool
     {
-        return $this->reflector->canChangeTypeAfterAssignment();
+        return $this->propertyReflection->canChangeTypeAfterAssignment();
     }
 
     public function isReadable(): bool
     {
-        return $this->reflector->isReadable();
+        return $this->propertyReflection->isReadable();
     }
 
     public function isWritable(): bool
@@ -72,21 +76,21 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
 
     public function isDeprecated(): TrinaryLogic
     {
-        return $this->reflector->isDeprecated();
+        return $this->propertyReflection->isDeprecated();
     }
 
     public function getdocComment(): ?string
     {
-        return $this->reflector->getdocComment();
+        return $this->propertyReflection->getdocComment();
     }
 
     public function getDeprecatedDescription(): ?string
     {
-        return $this->reflector->getDeprecatedDescription();
+        return $this->propertyReflection->getDeprecatedDescription();
     }
 
     public function isInternal(): TrinaryLogic
     {
-        return $this->reflector->isInternal();
+        return $this->propertyReflection->isInternal();
     }
 }

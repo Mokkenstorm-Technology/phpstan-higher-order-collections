@@ -10,41 +10,16 @@ use PHPStan\Type\Type;
 
 class HigherOrderCollectionMethodReflection implements MethodReflection
 {
-    private MethodReflection $reflector;
+    private ClassReflection $classReflection;
     
-    public function __construct(MethodReflection $reflector)
-    {
-        $this->reflector = $reflector;
-    }
+    private MethodReflection $methodReflection;
     
-    public function getDeclaringClass(): ClassReflection
-    {
-        return $this->reflector->getDeclaringClass();
-    }
-
-    public function isStatic(): bool
-    {
-        return $this->reflector->isStatic();
-    }
-
-    public function isPrivate(): bool
-    {
-        return $this->reflector->isPrivate();
-    }
-
-    public function isPublic(): bool
-    {
-        return $this->reflector->isPublic();
-    }
-
-    public function getName(): string
-    {
-        return $this->reflector->getName();
-    }
-
-    public function getPrototype(): self
-    {
-        return $this;
+    public function __construct(
+        MethodReflection $methodReflection,
+        ClassReflection $classReflection
+    ) {
+        $this->methodReflection = $methodReflection;
+        $this->classReflection = $classReflection;
     }
 
     /**
@@ -54,43 +29,76 @@ class HigherOrderCollectionMethodReflection implements MethodReflection
     {
         return array_map(
             fn (ParametersAcceptor $acceptor) : ParametersAcceptor =>
-                new CollectionParameterAcceptor($acceptor),
-            $this->reflector->getVariants()
+                new CollectionParameterAcceptor(
+                    $acceptor,
+                    $this->classReflection
+                ),
+            $this->methodReflection->getVariants()
         );
+    }
+    
+    public function getDeclaringClass(): ClassReflection
+    {
+        return $this->methodReflection->getDeclaringClass();
+    }
+
+    public function isStatic(): bool
+    {
+        return $this->methodReflection->isStatic();
+    }
+
+    public function isPrivate(): bool
+    {
+        return $this->methodReflection->isPrivate();
+    }
+
+    public function isPublic(): bool
+    {
+        return $this->methodReflection->isPublic();
+    }
+
+    public function getName(): string
+    {
+        return $this->methodReflection->getName();
+    }
+
+    public function getPrototype(): self
+    {
+        return $this;
     }
 
     public function isDeprecated(): TrinaryLogic
     {
-        return $this->reflector->isDeprecated();
+        return $this->methodReflection->isDeprecated();
     }
 
     public function getDeprecatedDescription(): ?string
     {
-        return $this->reflector->getDeprecatedDescription();
+        return $this->methodReflection->getDeprecatedDescription();
     }
 
     public function isFinal(): TrinaryLogic
     {
-        return $this->reflector->isFinal();
+        return $this->methodReflection->isFinal();
     }
 
     public function isInternal(): TrinaryLogic
     {
-        return $this->reflector->isInternal();
+        return $this->methodReflection->isInternal();
     }
 
     public function getThrowType(): ?Type
     {
-        return $this->reflector->getThrowType();
+        return $this->methodReflection->getThrowType();
     }
 
     public function hasSideEffects(): TrinaryLogic
     {
-        return $this->reflector->hasSideEffects();
+        return $this->methodReflection->hasSideEffects();
     }
 
     public function getDocComment(): ?string
     {
-        return $this->reflector->getDocComment();
+        return $this->methodReflection->getDocComment();
     }
 }

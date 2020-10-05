@@ -49,7 +49,8 @@ class HigherOrderCollectionExtension implements MethodsClassReflectionExtension,
             $this->reflectionProvider->getClass($type->getClassName())->getMethod(
                 $methodName,
                 new OutOfClassScope
-            )
+            ),
+            $classReflection,
         );
     }
 
@@ -70,7 +71,8 @@ class HigherOrderCollectionExtension implements MethodsClassReflectionExtension,
             $this->reflectionProvider->getClass($type->getClassName())->getProperty(
                 $propertyName,
                 new OutOfClassScope
-            )
+            ),
+            $classReflection
         );
     }
 
