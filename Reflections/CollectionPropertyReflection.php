@@ -5,9 +5,12 @@ namespace Plugin\Reflections;
 use PHPStan\Analyser\OutOfClassScope;
 
 use PHPStan\Reflection\PropertyReflection;
+use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
+use PHPStan\Type\VerbosityLevel;
+use PHPStan\Type\UnionType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\NeverType;
@@ -33,15 +36,17 @@ class CollectionPropertyReflection implements PropertyReflection
     public function getReadableType(): Type
     {
         assert(($inner = $this->reflector->getTemplateTypeMap()->getType('T')) !== null);
-
-        // fixme
-        assert(($outer = $this->reflector->getMethod($this->method, new OutOfClassScope)->getVariants()[0]->getReturnType()) !== null);
+        
+        $types = array_map(
+            fn (ParametersAcceptor $acceptor) : Type => $acceptor->getReturnType(),
+            $this->reflector->getMethod($this->method, new OutOfClassScope)->getVariants()
+        );
         
         return new GenericObjectType(
             HigherOrderCollectionProxy::class,
             [
                 $inner,
-                $outer
+                count($types) > 1 ? new UnionType($types) : $types[0]
             ]
         );
     }

@@ -12,6 +12,14 @@ use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
 class CollectionExtension implements PropertiesClassReflectionExtension
 {
+    /**
+     * @var string[]
+     */
+    private array $proxyMethods = [
+        'filter',
+        'map',
+    ];
+    
     public function hasProperty(ClassReflection $class, string $property): bool
     {
         return $this->isCollection($class) && $this->isProxyable($property);
@@ -24,10 +32,7 @@ class CollectionExtension implements PropertiesClassReflectionExtension
 
     private function isProxyable(string $property) : bool
     {
-        return in_array($property, [
-            'filter',
-            'map',
-        ]);
+        return in_array($property, $this->proxyMethods);
     }
 
     private function isCollection(ClassReflection $class) : bool

@@ -2,13 +2,11 @@
 
 namespace Plugin\Extensions;
 
-use App\Infrastructure\Support\Collection;
+use App\Infrastructure\Support\HigherOrderCollectionProxy;
 
-use PHPStan\Analyser\Scope;
 use PHPStan\Analyser\OutOfClassScope;
-use PHPStan\Type\ObjectType;
+use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
-use PHPStan\Type\Generic\GenericObjectType;
 
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
@@ -16,8 +14,6 @@ use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\ReflectionProvider;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
-
-use PhpParser\Node\Expr\MethodCall;
 
 use Plugin\Reflections\HigherOrderCollectionMethodReflection;
 use Plugin\Reflections\HigherOrderCollectionPropertyReflection;
@@ -31,88 +27,54 @@ class HigherOrderCollectionExtension implements MethodsClassReflectionExtension,
         $this->reflectionProvider = $reflectionProvider;
     }
 
-    public function hasMethod(ClassReflection $classReflection, string $methodName): bool
+    public function hasMethod(ClassReflection $class, string $method): bool
     {
-        if (($type = $this->getTemplateType($classReflection)) === null) {
-            return false;
-        }
-        
-        return $this->reflectionProvider->getClass($type->getClassName())->hasMethod($methodName);
+        return $this->isCollectionProxy($class) && $this->getTemplateType($class)->hasMethod($method)->yes();
     }
 
-    public function getMethod(ClassReflection $classReflection, string $methodName): MethodReflection
+    public function hasProperty(ClassReflection $class, string $property) : bool
     {
-        assert(($type = $this->getTemplateType($classReflection)) !== null);
-        assert($this->reflectionProvider->hasClass($type->getClassName()));
+        return $this->isCollectionProxy($class) && $this->getTemplateType($class)->hasProperty($property)->yes();
+    }
 
-        return new HigherOrderCollectionMethodReflection(
-            $this->reflectionProvider->getClass($type->getClassName())->getMethod(
-                $methodName,
-                new OutOfClassScope
-            ),
-            $classReflection,
+    public function getMethod(ClassReflection $class, string $method): MethodReflection
+    {
+        return new HigherOrderCollectionMethodReflection($class, $this->mapClassReflections(
+            $class,
+            fn (ClassReflection $reflection): MethodReflection => $reflection->getMethod($method, new OutOfClassScope)
+        ));
+    }
+
+    public function getProperty(ClassReflection $class, string $property) : PropertyReflection
+    {
+        return new HigherOrderCollectionPropertyReflection($class, $this->mapClassReflections(
+            $class,
+            fn (ClassReflection $reflection): PropertyReflection => $reflection->getProperty($property, new OutOfClassScope)
+        ));
+    }
+
+    /**
+     * @template S
+     * @param callable(ClassReflection): S $cb
+     *
+     * @return S[]
+     */
+    private function mapClassReflections(ClassReflection $reflection, callable $cb) : array
+    {
+        return array_map(
+            fn (string $class) => $cb($this->reflectionProvider->getClass($class)),
+            $this->getTemplateType($reflection)->getReferencedClasses()
         );
     }
 
-    public function hasProperty(ClassReflection $classReflection, string $propertyName) : bool
+    private function isCollectionProxy(ClassReflection $class) : bool
     {
-        if (($type = $this->getTemplateType($classReflection)) === null) {
-            return false;
-        }
-        
-        return $this->reflectionProvider->getClass($type->getClassName())->hasProperty($propertyName);
+        return $class->getName() === HigherOrderCollectionProxy::class ||
+            $class->isSubclassOf(HigherOrderCollectionProxy::class);
     }
-
-    public function getProperty(ClassReflection $classReflection, string $propertyName) : PropertyReflection
+    
+    private function getTemplateType(ClassReflection $class) : Type
     {
-        assert(($type = $this->getTemplateType($classReflection)) !== null);
-
-        return new HigherOrderCollectionPropertyReflection(
-            $this->reflectionProvider->getClass($type->getClassName())->getProperty(
-                $propertyName,
-                new OutOfClassScope
-            ),
-            $classReflection
-        );
-    }
-
-    public function isMethodSupported(MethodReflection $methodReflection): bool
-    {
-        $type = $this->getTemplateType($methodReflection->getDeclaringClass());
-
-        return ($type instanceof ObjectType) && $type->hasMethod($methodReflection->getName())->yes();
-    }
-
-    public function getTypeFromMethodCall(
-        MethodReflection $methodReflection,
-        MethodCall $methodCall,
-        Scope $scope
-    ) : Type {
-        $type = $this->getTemplateType($methodReflection->getDeclaringClass());
-
-        assert($type instanceof ObjectType);
-
-        $classReflector = $type->getClassReflection();
-
-        assert($classReflector !== null);
-
-        return new GenericObjectType(Collection::class, [$type]);
-    }
-
-    private function getTemplateType(ClassReflection $classReflection) : ? ObjectType
-    {
-        if (($type = $classReflection->getActiveTemplateTypeMap()->getType('T')) === null) {
-            return null;
-        }
-
-        if (!$type instanceof ObjectType) {
-            return null;
-        }
-
-        if (!$this->reflectionProvider->hasClass($type->getClassName())) {
-            return null;
-        }
-
-        return $type;
+        return $class->getActiveTemplateTypeMap()->getType('T') ?? new NeverType;
     }
 }

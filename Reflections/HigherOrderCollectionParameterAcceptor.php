@@ -11,7 +11,7 @@ use PHPStan\Type\TypeTraverser;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\ClassReflection;
 
-class CollectionParameterAcceptor implements ParametersAcceptor
+class HigherOrderCollectionParameterAcceptor implements ParametersAcceptor
 {
     private ParametersAcceptor $acceptor;
 
