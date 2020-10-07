@@ -1,2 +1,3 @@
-# phpstan-higher-order-collections
-Higher Order Collections support for PHPStan
+# PHPStan Higher Order Collections
+
+This plugin adds PHPStan support to Higher Order Messaging on the Collection concept popularized by Laravel.
