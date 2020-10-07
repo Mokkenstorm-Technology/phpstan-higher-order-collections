@@ -9,12 +9,16 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 
+use Plugin\Support\ConfigInterface;
+
 class HigherOrderCollectionMethodReflection implements MethodReflection
 {
     use AggregatesReflections;
 
     private ClassReflection $classReflection;
 
+    private ConfigInterface $config;
+    
     /**
      * @var MethodReflection[]
      */
@@ -23,9 +27,13 @@ class HigherOrderCollectionMethodReflection implements MethodReflection
     /**
      * @param MethodReflection[] $reflections
      */
-    public function __construct(ClassReflection $classReflection, array $reflections)
-    {
+    public function __construct(
+        ClassReflection $classReflection,
+        ConfigInterface $config,
+        array $reflections
+    ) {
         $this->classReflection = $classReflection;
+        $this->config = $config;
         $this->reflections = $reflections;
     }
 
@@ -37,7 +45,8 @@ class HigherOrderCollectionMethodReflection implements MethodReflection
         $decorator = fn (ParametersAcceptor $acceptor) : ParametersAcceptor =>
             new HigherOrderCollectionParameterAcceptor(
                 $acceptor,
-                $this->classReflection
+                $this->classReflection,
+                $this->config
             );
         
         return array_merge(...$this->mapReflections(

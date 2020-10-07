@@ -2,24 +2,22 @@
 
 namespace Plugin\Extensions;
 
-use App\Infrastructure\Support\Collection;
-
-use Plugin\Reflections\CollectionPropertyReflection;
-
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
+use Plugin\Support\ConfigInterface;
+use Plugin\Reflections\CollectionPropertyReflection;
+
 class CollectionExtension implements PropertiesClassReflectionExtension
 {
-    /**
-     * @var string[]
-     */
-    private array $proxyMethods = [
-        'filter',
-        'map',
-    ];
-    
+    private ConfigInterface $config;
+
+    public function __construct(ConfigInterface $config)
+    {
+        $this->config = $config;
+    }
+
     public function hasProperty(ClassReflection $class, string $property): bool
     {
         return $this->isCollection($class) && $this->isProxyable($property);
@@ -27,16 +25,18 @@ class CollectionExtension implements PropertiesClassReflectionExtension
 
     public function getProperty(ClassReflection $class, string $property): PropertyReflection
     {
-        return new CollectionPropertyReflection($class, $property);
+        return new CollectionPropertyReflection($class, $property, $this->config);
     }
 
     private function isProxyable(string $property) : bool
     {
-        return in_array($property, $this->proxyMethods);
+        return in_array($property, $this->config->proxyMethods());
     }
 
     private function isCollection(ClassReflection $class) : bool
     {
-        return $class->getName() === Collection::class || $class->isSubclassOf(Collection::class);
+        $collection = $this->config->collectionClass();
+        
+        return $class->getName() === $collection || $class->isSubclassOf($collection);
     }
 }

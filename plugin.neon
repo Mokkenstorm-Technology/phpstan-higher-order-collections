@@ -1,0 +1,37 @@
+parameters:
+    higherOrderCollection:
+        proxyMethods:
+            - map
+            - filter
+        typeTemplate: T 
+        proxyTemplate: S
+parametersSchema:
+    higherOrderCollection: structure([
+        collectionClass: string()
+        proxyClass: string()
+        proxyMethods: array(string())
+        typeTemplate: string()
+        proxyTemplate: string()
+    ])
+services: 
+    -
+        class: Plugin\Support\ConfigInterface
+        factory: Plugin\Support\Config
+        arguments:
+            collectionClass: %higherOrderCollection.collectionClass%
+            proxyClass: %higherOrderCollection.proxyClass%
+            proxyMethods: %higherOrderCollection.proxyMethods%
+            typeTemplate: %higherOrderCollection.typeTemplate%
+            proxyTemplate: %higherOrderCollection.proxyTemplate%
+    -
+        class: Plugin\Extensions\CollectionExtension
+        tags:
+            - phpstan.broker.propertiesClassReflectionExtension
+    -
+        class: Plugin\Extensions\HigherOrderCollectionMethodExtension
+        tags:
+            - phpstan.broker.methodsClassReflectionExtension
+    -
+        class: Plugin\Extensions\HigherOrderCollectionPropertyExtension
+        tags:
+            - phpstan.broker.propertiesClassReflectionExtension

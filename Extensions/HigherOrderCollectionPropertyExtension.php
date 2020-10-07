@@ -19,9 +19,13 @@ class HigherOrderCollectionPropertyExtension extends BaseHigherOrderCollectionEx
 
     public function getProperty(ClassReflection $class, string $property) : PropertyReflection
     {
-        return new HigherOrderCollectionPropertyReflection($class, $this->mapClassReflections(
+        return new HigherOrderCollectionPropertyReflection(
             $class,
-            fn (ClassReflection $reflection): PropertyReflection => $reflection->getProperty($property, new OutOfClassScope)
-        ));
+            $this->config,
+            $this->mapClassReflections(
+                $class,
+                fn (ClassReflection $reflection): PropertyReflection => $reflection->getProperty($property, new OutOfClassScope)
+            )
+        );
     }
 }

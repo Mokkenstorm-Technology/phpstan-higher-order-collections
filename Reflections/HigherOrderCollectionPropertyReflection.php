@@ -9,11 +9,15 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\NeverType;
 
+use Plugin\Support\ConfigInterface;
+
 class HigherOrderCollectionPropertyReflection implements PropertyReflection
 {
     use AggregatesReflections;
 
     private ClassReflection $classReflection;
+
+    private ConfigInterface $config;
 
     /**
      * @var PropertyReflection[]
@@ -23,19 +27,24 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
     /**
      * @param PropertyReflection[] $reflections
      */
-    public function __construct(ClassReflection $classReflection, array $reflections)
-    {
+    public function __construct(
+        ClassReflection $classReflection,
+        ConfigInterface $config,
+        array $reflections
+    ) {
         $this->classReflection = $classReflection;
+        $this->config = $config;
         $this->reflections = $reflections;
     }
 
     public function getReadableType(): Type
     {
-        return $this->classReflection->withTypes([
-        
-            count($propertyTypes = $this->getPropertyTypes()) > 1 ? new UnionType($propertyTypes) : $propertyTypes[0]
-        
-        ])->getActiveTemplateTypeMap()->getType('S') ?? new NeverType;
+        $types = $this->getPropertyTypes();
+
+        return $this->classReflection
+                    ->withTypes([ count($types) > 1 ? new UnionType($types) : $types[0] ])
+                    ->getActiveTemplateTypeMap()
+                    ->getType($this->config->proxyTemplate()) ?? new NeverType;
     }
 
     /**

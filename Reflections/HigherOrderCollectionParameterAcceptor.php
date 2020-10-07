@@ -8,23 +8,29 @@ use PHPStan\Type\NeverType;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\ClassReflection;
 
+use Plugin\Support\ConfigInterface;
+
 class HigherOrderCollectionParameterAcceptor implements ParametersAcceptor
 {
     private ParametersAcceptor $acceptor;
 
     private ClassReflection $reflector;
+    
+    private ConfigInterface $config;
 
-    public function __construct(ParametersAcceptor $acceptor, ClassReflection $reflector)
+    public function __construct(ParametersAcceptor $acceptor, ClassReflection $reflector, ConfigInterface $config)
     {
         $this->acceptor = $acceptor;
         $this->reflector = $reflector;
+        $this->config = $config;
     }
 
     public function getReturnType(): Type
     {
-        return $this->reflector->withTypes([
-            $this->acceptor->getReturnType()
-        ])->getActiveTemplateTypeMap()->getType('S') ?? new NeverType;
+        return $this->reflector
+                    ->withTypes([ $this->acceptor->getReturnType() ])
+                    ->getActiveTemplateTypeMap()
+                    ->getType($this->config->proxyTemplate()) ?? new NeverType;
     }
     
     public function getTemplateTypeMap(): TemplateTypeMap

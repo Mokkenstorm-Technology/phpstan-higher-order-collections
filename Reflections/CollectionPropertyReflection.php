@@ -13,32 +13,33 @@ use PHPStan\Type\UnionType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\NeverType;
 
-use App\Infrastructure\Support\HigherOrderCollectionProxy;
+use Plugin\Support\ConfigInterface;
 
 class CollectionPropertyReflection implements PropertyReflection
 {
     private ClassReflection $reflector;
 
     private string $method;
+    
+    private ConfigInterface $config;
 
     /**
      * @param string $method
      */
-    public function __construct(ClassReflection $reflector, string $method)
+    public function __construct(ClassReflection $reflector, string $method, ConfigInterface $config)
     {
         $this->reflector = $reflector;
         $this->method = $method;
+        $this->config = $config;
     }
 
     public function getReadableType(): Type
     {
-        return new GenericObjectType(
-            HigherOrderCollectionProxy::class,
-            [
-                $this->reflector->getTemplateTypeMap()->getType('T') ?? new NeverType,
-                count($types = $this->mapAcceptors()) > 1 ? new UnionType($types) : $types[0]
-            ]
-        );
+        $innerType = $this->reflector->getTemplateTypeMap()->getType($this->config->typeTemplate()) ?? new NeverType;
+    
+        $outerType = count($types = $this->mapAcceptors()) > 1 ? new UnionType($types) : $types[0];
+        
+        return new GenericObjectType($this->config->proxyClass(), [$innerType, $outerType]);
     }
 
     /**

@@ -19,9 +19,13 @@ class HigherOrderCollectionMethodExtension extends BaseHigherOrderCollectionExte
     
     public function getMethod(ClassReflection $class, string $method): MethodReflection
     {
-        return new HigherOrderCollectionMethodReflection($class, $this->mapClassReflections(
+        return new HigherOrderCollectionMethodReflection(
             $class,
-            fn (ClassReflection $reflection): MethodReflection => $reflection->getMethod($method, new OutOfClassScope)
-        ));
+            $this->config,
+            $this->mapClassReflections(
+                $class,
+                fn (ClassReflection $reflection): MethodReflection => $reflection->getMethod($method, new OutOfClassScope)
+            )
+        );
     }
 }
