@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Extensions;
+namespace HOC\Extensions;
 
 use PHPStan\Analyser\OutOfClassScope;
 
@@ -8,7 +8,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
-use Plugin\Reflections\HigherOrderCollectionPropertyReflection;
+use HOC\Reflections\HigherOrderCollectionPropertyReflection;
 
 class HigherOrderCollectionPropertyExtension extends BaseHigherOrderCollectionExtension implements PropertiesClassReflectionExtension
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Reflections;
+namespace HOC\Reflections;
 
 use PHPStan\Analyser\OutOfClassScope;
 
@@ -13,7 +13,7 @@ use PHPStan\Type\UnionType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\NeverType;
 
-use Plugin\Support\ConfigInterface;
+use HOC\Support\ConfigInterface;
 
 class CollectionPropertyReflection implements PropertyReflection
 {

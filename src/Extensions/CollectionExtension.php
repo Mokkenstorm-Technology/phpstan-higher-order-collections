@@ -1,13 +1,13 @@
 <?php
 
-namespace Plugin\Extensions;
+namespace HOC\Extensions;
 
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
-use Plugin\Support\ConfigInterface;
-use Plugin\Reflections\CollectionPropertyReflection;
+use HOC\Support\ConfigInterface;
+use HOC\Reflections\CollectionPropertyReflection;
 
 class CollectionExtension implements PropertiesClassReflectionExtension
 {

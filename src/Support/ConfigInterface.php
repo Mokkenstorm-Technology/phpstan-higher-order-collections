@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Support;
+namespace HOC\Support;
 
 interface ConfigInterface
 {

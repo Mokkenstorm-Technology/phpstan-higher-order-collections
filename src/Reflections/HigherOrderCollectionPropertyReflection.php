@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Reflections;
+namespace HOC\Reflections;
 
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\ClassReflection;
@@ -9,7 +9,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\NeverType;
 
-use Plugin\Support\ConfigInterface;
+use HOC\Support\ConfigInterface;
 
 class HigherOrderCollectionPropertyReflection implements PropertyReflection
 {

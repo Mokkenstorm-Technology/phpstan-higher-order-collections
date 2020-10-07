@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Extensions;
+namespace HOC\Extensions;
 
 use PHPStan\Analyser\OutOfClassScope;
 
@@ -8,7 +8,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
 
-use Plugin\Reflections\HigherOrderCollectionMethodReflection;
+use HOC\Reflections\HigherOrderCollectionMethodReflection;
 
 class HigherOrderCollectionMethodExtension extends BaseHigherOrderCollectionExtension implements MethodsClassReflectionExtension
 {

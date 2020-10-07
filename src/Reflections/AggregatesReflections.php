@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Reflections;
+namespace HOC\Reflections;
 
 use PHPStan\TrinaryLogic;
 

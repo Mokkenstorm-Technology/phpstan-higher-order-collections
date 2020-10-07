@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Reflections;
+namespace HOC\Reflections;
 
 use PHPStan\Type\Generic\TemplateTypeMap;
 use PHPStan\Type\Type;
@@ -8,7 +8,7 @@ use PHPStan\Type\NeverType;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\ClassReflection;
 
-use Plugin\Support\ConfigInterface;
+use HOC\Support\ConfigInterface;
 
 class HigherOrderCollectionParameterAcceptor implements ParametersAcceptor
 {

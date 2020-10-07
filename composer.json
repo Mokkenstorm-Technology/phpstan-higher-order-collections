@@ -1,0 +1,37 @@
+{
+    "name": "sustainabil-it/phpstan-higher-order-collections",
+    "description": "Higher Order Collection Support for PHPStan",
+    "type": "phpstan-extension",
+    "require": {
+        "phpstan/phpstan": "^0.12.48",
+        "php": "^7.4 || ^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.4",
+        "illuminate/collections": "^8.9"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Niels Mokkentstorm",
+            "email": "nielsmokkenstorm@gmail.com"
+        }
+    ],
+    "extra": {
+        "phpstan": {
+            "includes": [
+                "extension.neon"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "HOC\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

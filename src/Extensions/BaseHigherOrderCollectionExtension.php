@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Extensions;
+namespace HOC\Extensions;
 
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
@@ -8,8 +8,8 @@ use PHPStan\Type\Type;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 
-use Plugin\Reflections\CollectionPropertyReflection;
-use Plugin\Support\ConfigInterface;
+use HOC\Reflections\CollectionPropertyReflection;
+use HOC\Support\ConfigInterface;
 
 abstract class BaseHigherOrderCollectionExtension
 {

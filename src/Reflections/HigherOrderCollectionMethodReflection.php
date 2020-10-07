@@ -1,6 +1,6 @@
 <?php
 
-namespace Plugin\Reflections;
+namespace HOC\Reflections;
 
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ClassReflection;
@@ -9,7 +9,7 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 
-use Plugin\Support\ConfigInterface;
+use HOC\Support\ConfigInterface;
 
 class HigherOrderCollectionMethodReflection implements MethodReflection
 {
