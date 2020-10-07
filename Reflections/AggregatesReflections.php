@@ -3,8 +3,6 @@
 namespace Plugin\Reflections;
 
 use PHPStan\TrinaryLogic;
-use PHPStan\Reflection\PropertyReflection;
-use PHPStan\Reflection\MethodReflection;
 
 trait AggregatesReflections
 {

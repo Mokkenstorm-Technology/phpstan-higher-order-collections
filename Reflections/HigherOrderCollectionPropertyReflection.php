@@ -8,9 +8,6 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\NeverType;
-use PHPStan\Type\Generic\GenericObjectType;
-
-use App\Infrastructure\Support\Collection;
 
 class HigherOrderCollectionPropertyReflection implements PropertyReflection
 {
@@ -34,15 +31,19 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
 
     public function getReadableType(): Type
     {
-        $propertyTypes = $this->mapReflections(fn (PropertyReflection $property) : Type => $property->getReadableType());
-
-        assert(($type = $this->classReflection->withTypes([
+        return $this->classReflection->withTypes([
         
-            count($propertyTypes) > 1 ? new UnionType($propertyTypes) : $propertyTypes[0]
+            count($propertyTypes = $this->getPropertyTypes()) > 1 ? new UnionType($propertyTypes) : $propertyTypes[0]
         
-        ])->getActiveTemplateTypeMap()->getType('S')) !== null);
+        ])->getActiveTemplateTypeMap()->getType('S') ?? new NeverType;
+    }
 
-        return $type;
+    /**
+     * @return Type[]
+     */
+    private function getPropertyTypes(): array
+    {
+        return $this->mapReflections(fn (PropertyReflection $property) : Type => $property->getReadableType());
     }
 
     public function getWritableType(): Type

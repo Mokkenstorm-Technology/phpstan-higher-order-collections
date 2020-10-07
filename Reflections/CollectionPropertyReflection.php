@@ -9,13 +9,10 @@ use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
-use PHPStan\Type\VerbosityLevel;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\Constant\ConstantStringType;
 use PHPStan\Type\NeverType;
 
-use App\Infrastructure\Support\Collection;
 use App\Infrastructure\Support\HigherOrderCollectionProxy;
 
 class CollectionPropertyReflection implements PropertyReflection
@@ -35,19 +32,23 @@ class CollectionPropertyReflection implements PropertyReflection
 
     public function getReadableType(): Type
     {
-        assert(($inner = $this->reflector->getTemplateTypeMap()->getType('T')) !== null);
-        
-        $types = array_map(
-            fn (ParametersAcceptor $acceptor) : Type => $acceptor->getReturnType(),
-            $this->reflector->getMethod($this->method, new OutOfClassScope)->getVariants()
-        );
-        
         return new GenericObjectType(
             HigherOrderCollectionProxy::class,
             [
-                $inner,
-                count($types) > 1 ? new UnionType($types) : $types[0]
+                $this->reflector->getTemplateTypeMap()->getType('T') ?? new NeverType,
+                count($types = $this->mapAcceptors()) > 1 ? new UnionType($types) : $types[0]
             ]
+        );
+    }
+
+    /**
+     * @return Type[]
+     */
+    private function mapAcceptors() : array
+    {
+        return array_map(
+            fn (ParametersAcceptor $acceptor) : Type => $acceptor->getReturnType(),
+            $this->reflector->getMethod($this->method, new OutOfClassScope)->getVariants()
         );
     }
 

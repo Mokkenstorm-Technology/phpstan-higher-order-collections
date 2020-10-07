@@ -2,12 +2,9 @@
 
 namespace Plugin\Reflections;
 
-use App\Infrastructure\Support\Collection;
-
 use PHPStan\Type\Generic\TemplateTypeMap;
-use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\Type;
-use PHPStan\Type\TypeTraverser;
+use PHPStan\Type\NeverType;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\ClassReflection;
 
@@ -25,11 +22,9 @@ class HigherOrderCollectionParameterAcceptor implements ParametersAcceptor
 
     public function getReturnType(): Type
     {
-        assert(($type = $this->reflector->withTypes([
+        return $this->reflector->withTypes([
             $this->acceptor->getReturnType()
-        ])->getActiveTemplateTypeMap()->getType('S')) !== null);
-
-        return $type;
+        ])->getActiveTemplateTypeMap()->getType('S') ?? new NeverType;
     }
     
     public function getTemplateTypeMap(): TemplateTypeMap
