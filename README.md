@@ -1,6 +1,6 @@
 # Higher Order Messaging support for Collections
 
-This plugin adds [PHPStan](https://phpstan.org/) support to Higher Order Messaging on the Collection concept popularized by [Laravel](https://laravel.com/docs/8.x/collections#introduction).
+This plugin adds [PHPStan](https://phpstan.org/) support to [Higher Order Messaging](https://laravel.com/docs/8.x/collections#higher-order-messages) on the Collection concept popularized by [Laravel](https://laravel.com/docs/8.x/collections#introduction).
 
 This extension provides following features:
 
