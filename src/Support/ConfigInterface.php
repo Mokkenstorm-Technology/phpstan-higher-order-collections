@@ -1,6 +1,6 @@
 <?php
 
-namespace HOC\Support;
+namespace SustainabilIT\PHPStanHOCPlugin\Support;
 
 interface ConfigInterface
 {

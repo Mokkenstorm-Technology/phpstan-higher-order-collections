@@ -8,7 +8,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.4",
-        "illuminate/collections": "^8.9"
+        "friendsofphp/php-cs-fixer": "^2.16"
     },
     "license": "MIT",
     "authors": [
@@ -26,12 +26,29 @@
     },
     "autoload": {
         "psr-4": {
-            "HOC\\": "src/"
+            "SustainabilIT\\PHPStanHOCPlugin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "config": {
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "scripts": {
+        "test:types": "php vendor/bin/phpstan analyze ./src --level=max",
+        "test:fix": "php vendor/bin/php-cs-fixer fix",
+        "test:lint": "php vendor/bin/php-cs-fixer fix --dry-run",
+        "test:unit": "vendor/bin/phpunit --colors=always",
+        "test" : [
+            "@test:lint",
+            "@test:types",
+            "@test:unit"
+        ]
+    }
+
 }
