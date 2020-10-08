@@ -11,7 +11,7 @@ This extension provides following features:
 To use this extension, require it in [Composer](https://getcomposer.org/):
 
 ```
-composer require sustainabil-it/phpstan-higher-order-collections
+composer require --dev sustainabil-it/phpstan-higher-order-collections
 ```
 
 This plugin exposes a few configuration options:
