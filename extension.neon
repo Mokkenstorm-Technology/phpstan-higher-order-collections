@@ -15,8 +15,8 @@ parametersSchema:
     ])
 services: 
     -
-        class: PHPStanHOC\Support\ConfigInterface
-        factory: PHPStanHOC\Support\Config
+        class: SustainabilIT\PHPStanHOCPlugin\Support\ConfigInterface
+        factory: SustainabilIT\PHPStanHOCPlugin\Support\Config
         arguments:
             collectionClass: %higherOrderCollection.collectionClass%
             proxyClass: %higherOrderCollection.proxyClass%
@@ -24,14 +24,14 @@ services:
             typeTemplate: %higherOrderCollection.typeTemplate%
             proxyTemplate: %higherOrderCollection.proxyTemplate%
     -
-        class: PHPStanHOC\Extensions\CollectionExtension
+        class: SustainabilIT\PHPStanHOCPlugin\Extensions\CollectionExtension
         tags:
             - phpstan.broker.propertiesClassReflectionExtension
     -
-        class: PHPStanHOC\Extensions\HigherOrderCollectionMethodExtension
+        class: SustainabilIT\PHPStanHOCPlugin\Extensions\HigherOrderCollectionMethodExtension
         tags:
             - phpstan.broker.methodsClassReflectionExtension
     -
-        class: PHPStanHOC\Extensions\HigherOrderCollectionPropertyExtension
+        class: SustainabilIT\PHPStanHOCPlugin\Extensions\HigherOrderCollectionPropertyExtension
         tags:
             - phpstan.broker.propertiesClassReflectionExtension

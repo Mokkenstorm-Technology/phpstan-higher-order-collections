@@ -1,0 +1,6 @@
+includes:
+    - ../extension.neon
+parameters:
+    higherOrderCollection:
+        collectionClass: Tests\Classes\Collection
+        proxyClass: Tests\Classes\HigherOrderCollectionProxy 

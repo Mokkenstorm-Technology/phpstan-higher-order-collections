@@ -1,6 +1,6 @@
 <?php
 
-namespace HOC\Extensions;
+namespace SustainabilIT\PHPStanHOCPlugin\Extensions;
 
 use PHPStan\Analyser\OutOfClassScope;
 
@@ -8,7 +8,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\MethodsClassReflectionExtension;
 
-use HOC\Reflections\HigherOrderCollectionMethodReflection;
+use SustainabilIT\PHPStanHOCPlugin\Reflections\HigherOrderCollectionMethodReflection;
 
 class HigherOrderCollectionMethodExtension extends BaseHigherOrderCollectionExtension implements MethodsClassReflectionExtension
 {
