@@ -3,6 +3,7 @@
 namespace SustainabilIT\PHPStanHOCPlugin\Reflections;
 
 use PHPStan\Reflection\MethodReflection;
+use PHPStan\Reflection\ClassMemberReflection;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\TrinaryLogic;
@@ -80,7 +81,7 @@ class HigherOrderCollectionMethodReflection implements MethodReflection
         return $this->reflections[0]->getName();
     }
 
-    public function getPrototype(): self
+    public function getPrototype(): ClassMemberReflection
     {
         return $this;
     }
