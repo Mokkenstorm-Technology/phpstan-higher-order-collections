@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Classes;
+namespace Tests\Custom;
 
 use Traversable;
 use IteratorAggregate;
@@ -8,19 +8,20 @@ use IteratorAggregate;
 use InvalidArgumentException;
 
 /**
+ * @template K
  * @template T
  *
- * @implements IteratorAggregate<int, T>
+ * @implements IteratorAggregate<K, T>
  */
 class Collection implements IteratorAggregate
 {
     /**
-     * @var (callable(): iterable<T>) | iterable<T>
+     * @var (callable(): iterable<K, T>) | iterable<K, T>
      */
     private $source;
 
     /**
-     * @param (callable(): iterable<T>) | iterable<T> $source
+     * @param (callable(): iterable<K, T>) | iterable<K, T> $source
      */
     public function __construct($source = [])
     {
@@ -28,10 +29,11 @@ class Collection implements IteratorAggregate
     }
     
     /**
+     * @template SKey
      * @template S
      *
-     * @param (callable(): iterable<S>) | iterable<S> $source
-     * @return Collection<S>
+     * @param (callable(): iterable<SKey, S>) | iterable<SKey, S> $source
+     * @return self<SKey, S>
      */
     public static function from($source = [])
     {
@@ -39,7 +41,7 @@ class Collection implements IteratorAggregate
     }
     
     /**
-     * @return Traversable<T>
+     * @return Traversable<K, T>
      */
     public function getIterator(): Traversable
     {
@@ -49,7 +51,7 @@ class Collection implements IteratorAggregate
     }
 
     /**
-     * @return T[]
+     * @return array<K, T>
      */
     public function toArray(): array
     {
@@ -58,8 +60,8 @@ class Collection implements IteratorAggregate
 
     /**
      * @template S
-     * @param callable(T, int): S $mapper
-     * @return Collection<S>
+     * @param callable(T, K): S $mapper
+     * @return Collection<K, S>
      */
     public function map(callable $mapper): self
     {
@@ -71,8 +73,8 @@ class Collection implements IteratorAggregate
     }
 
     /**
-     * @param callable(T, int): bool $filter
-     * @return Collection<T>
+     * @param callable(T, K): bool $filter
+     * @return Collection<K, T>
      */
     public function filter(callable $filter): self
     {
@@ -88,7 +90,7 @@ class Collection implements IteratorAggregate
     /**
      * @template S
      *
-     * @param callable(S, T, int | null ): S $reducer
+     * @param callable(S, T, K): S $reducer
      * @param S $initial
      * @return S
      */
@@ -105,7 +107,7 @@ class Collection implements IteratorAggregate
      * @template S
      *
      * @param class-string<S> $target
-     * @return Collection<S>
+     * @return Collection<K, S>
      */
     public function mapInto(string $target)
     {

@@ -1,0 +1,24 @@
+<?php
+
+namespace Illuminate\Support;
+
+/**
+ * @template TKey
+ * @template TValue
+ * @template TReturn
+ */
+class HigherOrderCollectionProxy
+{
+    /**
+     * @var Enumerable<TKey, TValue>
+     */
+    protected $colllection;
+
+    /**
+     * @param Enumerable<TKey, TValue> $collection
+     */
+    public function __construct(Enumerable $collection, string $method)
+    {
+        //
+    }
+}

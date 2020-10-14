@@ -21,6 +21,8 @@ class Config implements ConfigInterface
 
     private string $typeTemplate;
 
+    private string $keyTemplate;
+    
     private string $proxyTemplate;
 
     /**
@@ -32,12 +34,14 @@ class Config implements ConfigInterface
         string $collectionClass,
         string $proxyClass,
         array $proxyMethods = ['map', 'filter'],
+        string $keyTemplate = 'K',
         string $typeTemplate = 'T',
         string $proxyTemplate = 'S'
     ) {
         $this->collectionClass = $collectionClass;
         $this->proxyClass = $proxyClass;
         $this->proxyMethods = $proxyMethods;
+        $this->keyTemplate = $keyTemplate;
         $this->typeTemplate = $typeTemplate;
         $this->proxyTemplate = $proxyTemplate;
     }
@@ -66,6 +70,11 @@ class Config implements ConfigInterface
         return $this->proxyMethods;
     }
 
+    public function keyTemplate(): string
+    {
+        return $this->keyTemplate;
+    }
+    
     public function typeTemplate(): string
     {
         return $this->typeTemplate;

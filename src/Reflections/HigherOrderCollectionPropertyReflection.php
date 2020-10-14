@@ -42,8 +42,11 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
         $types = $this->getPropertyTypes();
 
         return $this->classReflection
-                    ->withTypes([ count($types) > 1 ? new UnionType($types) : $types[0] ])
-                    ->getActiveTemplateTypeMap()
+                    ->withTypes([
+                        $this->classReflection->getTemplateTypeMap()->getType($this->config->keyTemplate()) ?? new NeverType,
+                        count($types) > 1 ? new UnionType($types) : $types[0]
+                    ])
+                    ->getTemplateTypeMap()
                     ->getType($this->config->proxyTemplate()) ?? new NeverType;
     }
 
@@ -52,7 +55,9 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
      */
     private function getPropertyTypes(): array
     {
-        return $this->mapReflections(fn (PropertyReflection $property) : Type => $property->getReadableType());
+        return $this->mapReflections(
+            fn (PropertyReflection $property) : Type => $property->getReadableType()
+        );
     }
 
     public function getWritableType(): Type

@@ -19,6 +19,8 @@ interface ConfigInterface
      */
     public function proxyMethods(): array;
 
+    public function keyTemplate(): string;
+    
     public function typeTemplate(): string;
     
     public function proxyTemplate(): string;

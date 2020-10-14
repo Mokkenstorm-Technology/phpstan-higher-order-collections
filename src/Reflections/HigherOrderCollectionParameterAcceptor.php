@@ -28,8 +28,11 @@ class HigherOrderCollectionParameterAcceptor implements ParametersAcceptor
     public function getReturnType(): Type
     {
         return $this->reflector
-                    ->withTypes([ $this->acceptor->getReturnType() ])
-                    ->getActiveTemplateTypeMap()
+                    ->withTypes([
+                        $this->reflector->getTemplateTypeMap()->getType($this->config->keyTemplate()) ?? new NeverType,
+                        $this->acceptor->getReturnType()
+                    ])
+                    ->getTemplateTypeMap()
                     ->getType($this->config->proxyTemplate()) ?? new NeverType;
     }
     
