@@ -35,11 +35,23 @@ class CollectionPropertyReflection implements PropertyReflection
 
     public function getReadableType(): Type
     {
-        $innerType = $this->reflector->getTemplateTypeMap()->getType($this->config->typeTemplate()) ?? new NeverType;
-    
-        $outerType = count($types = $this->mapAcceptors()) > 1 ? new UnionType($types) : $types[0];
-        
-        return new GenericObjectType($this->config->proxyClass(), [$innerType, $outerType]);
+        [ $keyType, $elementType ] = $this->getTemplateTypes([$this->config->keyTemplate(), $this->config->typeTemplate()]);
+
+        $returnType = count($types = $this->mapAcceptors()) > 1 ? new UnionType($types) : $types[0];
+
+        return new GenericObjectType($this->config->proxyClass(), [$keyType, $elementType, $returnType]);
+    }
+
+    /**
+     * @param string[] $keys
+     * @return Type[]
+     */
+    private function getTemplateTypes(array $keys)
+    {
+        return array_map(
+            fn (string $key) : Type => $this->reflector->getTemplateTypeMap()->getType($key) ?? new NeverType,
+            $keys
+        );
     }
 
     /**

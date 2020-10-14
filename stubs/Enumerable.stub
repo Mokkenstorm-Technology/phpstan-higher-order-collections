@@ -1,0 +1,18 @@
+<?php
+
+namespace Illuminate\Support;
+
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
+
+/**
+ * @template TKey
+ * @template TValue
+ * 
+ * @extends \IteratorAggregate<TKey, TValue>
+ * @extends Arrayable<TKey, TValue>
+ */
+interface Enumerable extends Arrayable, \Countable, \IteratorAggregate, Jsonable, \JsonSerializable
+{
+    //
+}

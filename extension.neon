@@ -3,13 +3,23 @@ parameters:
         proxyMethods:
             - map
             - filter
-        typeTemplate: T 
-        proxyTemplate: S
+        keyTemplate: TKey
+        typeTemplate: TValue
+        proxyTemplate: TReturn
+        collectionClass: Illuminate\Support\Enumerable
+        proxyClass: Illuminate\Support\HigherOrderCollectionProxy 
+    stubFiles:
+        - stubs/Arrayable.stub
+        - stubs/Collection.stub
+        - stubs/Enumerable.stub
+        - stubs/Jsonable.stub
+        - stubs/HigherOrderCollectionProxy.stub
 parametersSchema:
     higherOrderCollection: structure([
         collectionClass: string()
         proxyClass: string()
         proxyMethods: array(string())
+        keyTemplate: string()
         typeTemplate: string()
         proxyTemplate: string()
     ])
@@ -21,6 +31,7 @@ services:
             collectionClass: %higherOrderCollection.collectionClass%
             proxyClass: %higherOrderCollection.proxyClass%
             proxyMethods: %higherOrderCollection.proxyMethods%
+            keyTemplate: %higherOrderCollection.keyTemplate%
             typeTemplate: %higherOrderCollection.typeTemplate%
             proxyTemplate: %higherOrderCollection.proxyTemplate%
     -

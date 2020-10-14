@@ -48,7 +48,7 @@ class HigherOrderCollectionMethodReflection implements MethodReflection
                 $this->classReflection,
                 $this->config
             );
-        
+
         return array_merge(...$this->mapReflections(
             fn (MethodReflection $reflection) : array =>
                 array_map($decorator, $reflection->getVariants())

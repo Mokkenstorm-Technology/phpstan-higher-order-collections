@@ -40,7 +40,7 @@ abstract class BaseHigherOrderCollectionExtension
     protected function isCollectionProxy(ClassReflection $class) : bool
     {
         $proxy = $this->config->proxyClass();
-        
+
         return $class->getName() === $proxy || $class->isSubclassOf($proxy);
     }
     

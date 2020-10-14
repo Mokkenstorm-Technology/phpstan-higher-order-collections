@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Files;
+namespace Tests\Custom;
 
-use Tests\Classes\Collection;
-use Tests\Classes\Foo;
-use Tests\Classes\Bar;
+use Tests\Common\Foo;
+use Tests\Common\Bar;
 
 (new Collection([ new Foo ]))->map->foo()->toArray();
 

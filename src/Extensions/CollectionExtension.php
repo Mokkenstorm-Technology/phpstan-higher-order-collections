@@ -36,7 +36,7 @@ class CollectionExtension implements PropertiesClassReflectionExtension
     private function isCollection(ClassReflection $class) : bool
     {
         $collection = $this->config->collectionClass();
-        
+
         return $class->getName() === $collection || $class->isSubclassOf($collection);
     }
 }

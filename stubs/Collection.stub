@@ -1,0 +1,46 @@
+<?php
+
+namespace Illuminate\Support;
+
+/**
+ * @template TKey
+ * @template TValue
+ * @implements \ArrayAccess<TKey, TValue>
+ * @implements Enumerable<TKey, TValue>
+ */
+class Collection implements \ArrayAccess, Enumerable
+{
+    /**
+     * The items contained in the collection.
+     *
+     * @var array<TKey, TValue>
+     */
+    protected $items = [];
+
+    /**
+     * @param array<TKey, TValue> $items
+     */
+    public function __construct($items = []){}
+
+    /**
+     * @template K
+     * @template T
+     * @param array<K,T> $items
+     * @return self<K,T>
+     */
+    public static function make($items = []){}
+
+    /**
+     * @template TReturn
+     * @param callable(TValue, TKey): TReturn $callable
+     * @return static<TKey, TReturn>
+     */
+    public function map($callable) {}
+
+    /**
+     * @template    TClass
+     * @param       class-string<TClass> $class
+     * @return      self<TKey, TClass>
+     */
+    public function mapInto($class) {}
+}

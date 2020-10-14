@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests\Classes;
+namespace Tests\Common;
 
-class Bar
+class Foo
 {
     public string $value;
 
@@ -11,7 +11,7 @@ class Bar
         $this->value = $value;
     }
 
-    public function bar(): string
+    public function foo(): string
     {
         return $this->value;
     }
