@@ -50,5 +50,9 @@
             "@test:types",
             "@test:unit"
         ]
+    },
+    "suggest": {
+        "illuminate/collections": "This package works with Laravel Collections by default, but does not require them",
+        "laravel/framework": "This package works with Laravel Collections by default, but does not require them"
     }
 }
