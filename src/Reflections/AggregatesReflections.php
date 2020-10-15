@@ -1,6 +1,6 @@
 <?php
 
-namespace SustainabilIT\PHPStanHOCPlugin\Reflections;
+namespace PHPStan\HigherOrderCollections\Reflections;
 
 use PHPStan\TrinaryLogic;
 

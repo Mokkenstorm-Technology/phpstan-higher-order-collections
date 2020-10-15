@@ -1,6 +1,6 @@
 <?php
 
-namespace SustainabilIT\PHPStanHOCPlugin\Extensions;
+namespace PHPStan\HigherOrderCollections\Extensions;
 
 use PHPStan\Type\NeverType;
 use PHPStan\Type\Type;
@@ -8,8 +8,8 @@ use PHPStan\Type\Type;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ReflectionProvider;
 
-use SustainabilIT\PHPStanHOCPlugin\Reflections\CollectionPropertyReflection;
-use SustainabilIT\PHPStanHOCPlugin\Support\ConfigInterface;
+use PHPStan\HigherOrderCollections\Reflections\CollectionPropertyReflection;
+use PHPStan\HigherOrderCollections\Support\ConfigInterface;
 
 abstract class BaseHigherOrderCollectionExtension
 {

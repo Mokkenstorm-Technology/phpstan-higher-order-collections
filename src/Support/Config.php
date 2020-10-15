@@ -1,6 +1,6 @@
 <?php
 
-namespace SustainabilIT\PHPStanHOCPlugin\Support;
+namespace PHPStan\HigherOrderCollections\Support;
 
 class Config implements ConfigInterface
 {

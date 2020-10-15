@@ -1,13 +1,13 @@
 <?php
 
-namespace SustainabilIT\PHPStanHOCPlugin\Extensions;
+namespace PHPStan\HigherOrderCollections\Extensions;
 
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
-use SustainabilIT\PHPStanHOCPlugin\Support\ConfigInterface;
-use SustainabilIT\PHPStanHOCPlugin\Reflections\CollectionPropertyReflection;
+use PHPStan\HigherOrderCollections\Support\ConfigInterface;
+use PHPStan\HigherOrderCollections\Reflections\CollectionPropertyReflection;
 
 class CollectionExtension implements PropertiesClassReflectionExtension
 {
