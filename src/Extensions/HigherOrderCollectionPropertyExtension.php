@@ -1,6 +1,6 @@
 <?php
 
-namespace SustainabilIT\PHPStanHOCPlugin\Extensions;
+namespace PHPStan\HigherOrderCollections\Extensions;
 
 use PHPStan\Analyser\OutOfClassScope;
 
@@ -8,7 +8,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\PropertiesClassReflectionExtension;
 
-use SustainabilIT\PHPStanHOCPlugin\Reflections\HigherOrderCollectionPropertyReflection;
+use PHPStan\HigherOrderCollections\Reflections\HigherOrderCollectionPropertyReflection;
 
 class HigherOrderCollectionPropertyExtension extends BaseHigherOrderCollectionExtension implements PropertiesClassReflectionExtension
 {

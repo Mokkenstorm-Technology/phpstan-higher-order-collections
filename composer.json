@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "SustainabilIT\\PHPStanHOCPlugin\\": "src/"
+            "PHPStan\\HigherOrderCollections\\": "src/"
         }
     },
     "autoload-dev": {

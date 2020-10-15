@@ -1,6 +1,6 @@
 <?php
 
-namespace SustainabilIT\PHPStanHOCPlugin\Reflections;
+namespace PHPStan\HigherOrderCollections\Reflections;
 
 use PHPStan\Analyser\OutOfClassScope;
 
@@ -13,7 +13,7 @@ use PHPStan\Type\UnionType;
 use PHPStan\Type\Generic\GenericObjectType;
 use PHPStan\Type\NeverType;
 
-use SustainabilIT\PHPStanHOCPlugin\Support\ConfigInterface;
+use PHPStan\HigherOrderCollections\Support\ConfigInterface;
 
 class CollectionPropertyReflection implements PropertyReflection
 {

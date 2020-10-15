@@ -1,6 +1,6 @@
 <?php
 
-namespace SustainabilIT\PHPStanHOCPlugin\Reflections;
+namespace PHPStan\HigherOrderCollections\Reflections;
 
 use PHPStan\Reflection\PropertyReflection;
 use PHPStan\Reflection\ClassReflection;
@@ -9,7 +9,7 @@ use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\NeverType;
 
-use SustainabilIT\PHPStanHOCPlugin\Support\ConfigInterface;
+use PHPStan\HigherOrderCollections\Support\ConfigInterface;
 
 class HigherOrderCollectionPropertyReflection implements PropertyReflection
 {
