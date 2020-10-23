@@ -25,8 +25,9 @@ class CollectionTest extends AbstractCollectionTest
      * @var array<int, string>
      */
     protected array $expectedErrors = [
-        10   => "Call to an undefined method %proxy%<int, Tests\Common\Foo, %collection%<int, TReturn>>::bar().",
+        10  => "Call to an undefined method %proxy%<int, Tests\Common\Foo, %collection%<int, TReturn>>::bar().",
         12  => "Call to an undefined method %proxy%<int, Tests\Common\Foo, %collection%<int, TReturn>>::bar().",
-        14  => "Call to an undefined method %proxy%<int, Tests\Common\Bar|Tests\Common\Foo, %collection%<int, TReturn>>::bar()."
+        14  => "Call to an undefined method %proxy%<int, Tests\Common\Bar|Tests\Common\Foo, %collection%<int, TReturn>>::bar().",
+        16  => "Call to an undefined method %proxy%<int, Tests\Common\Foo, %collection%<int, Tests\Common\Foo>>::bar().",
     ];
 }

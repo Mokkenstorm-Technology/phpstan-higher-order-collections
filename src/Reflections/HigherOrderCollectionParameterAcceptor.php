@@ -4,7 +4,7 @@ namespace PHPStan\HigherOrderCollections\Reflections;
 
 use PHPStan\Type\Generic\TemplateTypeMap;
 use PHPStan\Type\Type;
-use PHPStan\Type\NeverType;
+use PHPStan\Type\ErrorType;
 use PHPStan\Reflection\ParametersAcceptor;
 use PHPStan\Reflection\ClassReflection;
 
@@ -29,11 +29,11 @@ class HigherOrderCollectionParameterAcceptor implements ParametersAcceptor
     {
         return $this->reflector
                     ->withTypes([
-                        $this->reflector->getTemplateTypeMap()->getType($this->config->keyTemplate()) ?? new NeverType,
+                        $this->reflector->getTemplateTypeMap()->getType($this->config->keyTemplate()) ?? new ErrorType,
                         $this->acceptor->getReturnType()
                     ])
                     ->getTemplateTypeMap()
-                    ->getType($this->config->proxyTemplate()) ?? new NeverType;
+                    ->getType($this->config->proxyTemplate()) ?? new ErrorType;
     }
     
     public function getTemplateTypeMap(): TemplateTypeMap

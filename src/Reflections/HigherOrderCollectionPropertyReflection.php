@@ -7,7 +7,7 @@ use PHPStan\Reflection\ClassReflection;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
-use PHPStan\Type\NeverType;
+use PHPStan\Type\ErrorType;
 
 use PHPStan\HigherOrderCollections\Support\ConfigInterface;
 
@@ -43,11 +43,11 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
 
         return $this->classReflection
                     ->withTypes([
-                        $this->classReflection->getTemplateTypeMap()->getType($this->config->keyTemplate()) ?? new NeverType,
+                        $this->classReflection->getTemplateTypeMap()->getType($this->config->keyTemplate()) ?? new ErrorType,
                         count($types) > 1 ? new UnionType($types) : $types[0]
                     ])
                     ->getTemplateTypeMap()
-                    ->getType($this->config->proxyTemplate()) ?? new NeverType;
+                    ->getType($this->config->proxyTemplate()) ?? new ErrorType;
     }
 
     /**
@@ -62,7 +62,7 @@ class HigherOrderCollectionPropertyReflection implements PropertyReflection
 
     public function getWritableType(): Type
     {
-        return new NeverType(true);
+        return new ErrorType;
     }
 
     public function getDeclaringClass(): ClassReflection

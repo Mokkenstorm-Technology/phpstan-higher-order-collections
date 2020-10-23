@@ -50,7 +50,11 @@ abstract class AbstractCollectionTest extends TestCase
         }
 
         foreach (array_diff_assoc($expected, $input) as $line => $error) {
-            $this->throwError('Expected "' . $expected[$line] . '" got a different error on line %s: "%s"', $line, $error);
+            $this->throwError(
+                'Expected "' . $expected[$line] . '" got a different error on line %s: "%s"',
+                $line,
+                $error
+            );
         }
     }
 

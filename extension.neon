@@ -1,8 +1,15 @@
 parameters:
     higherOrderCollection:
         proxyMethods:
-            - map
+            - contains
+            - every
             - filter
+            - each
+            - first
+            - map
+            - reject
+            - some
+            - unique
         keyTemplate: TKey
         typeTemplate: TValue
         proxyTemplate: TReturn

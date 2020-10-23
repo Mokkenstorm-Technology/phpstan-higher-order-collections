@@ -11,7 +11,7 @@ use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
 use PHPStan\Type\Generic\GenericObjectType;
-use PHPStan\Type\NeverType;
+use PHPStan\Type\ErrorType;
 
 use PHPStan\HigherOrderCollections\Support\ConfigInterface;
 
@@ -49,7 +49,7 @@ class CollectionPropertyReflection implements PropertyReflection
     private function getTemplateTypes(array $keys)
     {
         return array_map(
-            fn (string $key) : Type => $this->reflector->getTemplateTypeMap()->getType($key) ?? new NeverType,
+            fn (string $key) : Type => $this->reflector->getTemplateTypeMap()->getType($key) ?? new ErrorType,
             $keys
         );
     }
@@ -67,7 +67,7 @@ class CollectionPropertyReflection implements PropertyReflection
 
     public function getWritableType(): Type
     {
-        return new NeverType(true);
+        return new ErrorType;
     }
 
     public function getDeclaringClass(): ClassReflection

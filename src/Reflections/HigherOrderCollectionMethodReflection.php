@@ -5,6 +5,7 @@ namespace PHPStan\HigherOrderCollections\Reflections;
 use PHPStan\Reflection\MethodReflection;
 use PHPStan\Reflection\ClassReflection;
 use PHPStan\Reflection\ParametersAcceptor;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\TrinaryLogic;
 use PHPStan\Type\Type;
 use PHPStan\Type\UnionType;
@@ -49,10 +50,16 @@ class HigherOrderCollectionMethodReflection implements MethodReflection
                 $this->config
             );
 
-        return array_merge(...$this->mapReflections(
+        $results = array_merge(...$this->mapReflections(
             fn (MethodReflection $reflection) : array =>
                 array_map($decorator, $reflection->getVariants())
         ));
+
+        if (!$results) {
+            throw new ShouldNotHappenException("Attempted Higher Order Messaging for unsupported method");
+        }
+
+        return $results;
     }
 
     public function getDeclaringClass(): ClassReflection
@@ -77,7 +84,7 @@ class HigherOrderCollectionMethodReflection implements MethodReflection
 
     public function getName(): string
     {
-        return $this->reflections[0]->getName();
+        return $this->reflections ? $this->reflections[0]->getName() : 'No Reflections';
     }
 
     public function getPrototype(): self
