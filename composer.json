@@ -3,7 +3,7 @@
     "description": "Higher Order Collection Support for PHPStan",
     "type": "phpstan-extension",
     "require": {
-        "phpstan/phpstan": "^0.12.48",
+        "phpstan/phpstan": "^0.12.48|^1.0",
         "php": "^7.4 || ^8.0"
     },
     "require-dev": {
